@@ -1,12 +1,12 @@
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
-        def invert(node: TreeNode) -> None:
-            if node is None:
-                return
-            
+        def dfs(node: TreeNode) -> TreeNode:
+            if not node:
+                return None
+
             node.left, node.right = node.right, node.left
-            invert(node.left)
-            invert(node.right)
-        
-        invert(root)
-        return root
+            node.left = dfs(node.left)
+            node.right = dfs(node.right)
+            return node
+
+        return dfs(root)
