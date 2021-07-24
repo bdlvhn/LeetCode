@@ -1,15 +1,14 @@
 class Solution:
-    min_height: int = -1
-    max_height: int = -1
+    isBalanced: bool = True
     def isBalanced(self, root: TreeNode) -> bool:
-        def check(root):
-            if not root:
-                return 0
-            
-            left = check(root.left)
-            right = check(root.right)
-            if left == -1 or right == -1 or abs(left-right) > 1:
-                return -1
-            return max(left, right) + 1
-        
-        return check(root) != -1
+        def dfs(node: TreeNode, height: int) -> int:
+            if not node:
+                return height
+            height += 1
+            left, right = dfs(node.left, height), dfs(node.right, height)
+            if abs(left - right) > 1:
+                self.isBalanced = False
+            return max(left, right)
+
+        dfs(root, 0)
+        return self.isBalanced
