@@ -1,14 +1,14 @@
 class Solution:
     total: int = 0
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        def findSumTree(node: TreeNode) -> TreeNode:
-            if node is None:
-                return None
+        def dfs(node: TreeNode):
+            if not node:
+                return
 
-            node.right = findSumTree(node.right)
+            dfs(node.right)
             self.total += node.val
             node.val = self.total
-            node.left = findSumTree(node.left)
-            return node
-
-        return findSumTree(root)
+            dfs(node.left)
+        
+        dfs(root)
+        return root
