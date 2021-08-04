@@ -1,41 +1,26 @@
-class Solution:
-    def sortList(self, head: ListNode) -> ListNode:
-        if not head:
-            return None
-        
-        def mergeSort(node: ListNode):
-            if node.next is None:
-                return node
-            
-            root = follower = runner = ListNode(None)
-            follower.next = node
-            runner.next = node
-            
-            while runner and runner.next:
-                follower = follower.next
-                runner = runner.next.next
-            
-            newer = follower.next
-            follower.next = None
-            root = root.next
-            
-            answer = result = ListNode(None)
-            a = mergeSort(root)
-            b = mergeSort(newer)
-            while a and b:
-                if a.val > b.val:
-                    result.next = b
-                    b = b.next
-                else:
-                    result.next = a
-                    a = a.next
-                result = result.next
-                
-            if a:
-                result.next = a
-            else:
-                result.next = b
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
-            return answer.next
-        
-        return mergeSort(head)
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 or (l2 and l1.val > l2.val):
+            l1, l2 = l2, l1
+        if l1:
+            l1.next = self.mergeTwoLists(l1.next, l2)
+        return l1
+
+    def sortList(self, head: ListNode) -> ListNode:
+        if not (head and head.next):
+            return head
+
+        half, slow, fast = None, head, head
+        while fast and fast.next:
+            half, slow, fast = slow, slow.next, fast.next.next
+        half.next = None
+
+        l1 = self.sortList(head)
+        l2 = self.sortList(slow)
+
+        return self.mergeTwoLists(l1, l2)
