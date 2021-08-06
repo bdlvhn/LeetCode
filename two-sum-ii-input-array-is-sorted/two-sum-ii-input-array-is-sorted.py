@@ -1,11 +1,10 @@
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        left, right = 0, len(numbers) - 1
-
-        while left < right:
-            if numbers[left] + numbers[right] == target:
-                return [left + 1, right + 1]
-            elif numbers[left] + numbers[right] > target:
-                right -= 1
+        def binarySearch(left: int, right: int) -> int:
+            if numbers[left] + numbers[right] > target:
+                return binarySearch(left, right - 1)
+            elif numbers[left] + numbers[right] < target:
+                return binarySearch(left + 1, right)
             else:
-                left += 1
+                return [left + 1, right + 1]
+        return binarySearch(0, len(numbers) - 1)
