@@ -1,21 +1,15 @@
 class Solution:
-    def leastInterval(self, tasks: List[str], n: int) -> int:
-        counter = collections.Counter(tasks)
-        result = 0
+    def leastInterval(self, tasks: List[str], n: int) -> int:        
         
-        while 1:
-            sub_count = 0
-            # 개수 순 추출
-            for task, _ in counter.most_common(n + 1):
-                sub_count += 1
-                result += 1
-                
-                counter.subtract(task)
-                # 0 이하인 아이템을 목록에서 완전히 제거
-                counter += collections.Counter()
-            if not counter:
-                break
+        counts = list(collections.Counter(tasks).values())
+        max_count = max(counts)
+        num_of_chars_with_max_count = counts.count(max_count)
         
-            result += n - sub_count + 1
+        num_of_chunks_with_idles = max_count-1
         
-        return result
+        length_of_a_chunk_with_idle = n+1
+        length_of_the_final_chunk = num_of_chars_with_max_count  # 2  
+
+        length_of_all_chunks = (num_of_chunks_with_idles*length_of_a_chunk_with_idle) + length_of_the_final_chunk
+
+        return max(len(tasks), length_of_all_chunks)
