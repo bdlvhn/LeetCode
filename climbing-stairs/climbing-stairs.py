@@ -1,13 +1,11 @@
 class Solution:
-    steps = collections.defaultdict(int)
-    steps[0] = 1
-    steps[1] = 1
-
+    dict = collections.defaultdict(int)
     def climbStairs(self, n: int) -> int:
-        if n <= 1:
-            return self.steps[n]
-
-        if self.steps[n] > 0:
-            return self.steps[n]
-        self.steps[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
-        return self.steps[n]
+        if n <= 2:
+            return n
+        
+        if self.dict[n]:
+            return self.dict[n]
+        
+        self.dict[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
+        return self.dict[n]
