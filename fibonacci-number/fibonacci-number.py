@@ -1,12 +1,8 @@
 class Solution:
-    dp: List[int] = [-1]*(30+1)
-    dp[0] = 0
-    dp[1] = 1
     def fib(self, n: int) -> int:
-        if n <= 1:
-            return self.dp[n]
+        fib = collections.defaultdict(int)
+        fib[0], fib[1] = 0, 1
+        for i in range(2, n+1):
+            fib[i] = fib[i-1] + fib[i-2]
+        return fib[n]
         
-        if self.dp[n] == -1:
-            self.dp[n] = self.fib(n-2) + self.fib(n-1)
-        
-        return self.dp[n]
